@@ -129,6 +129,10 @@
   <ItemGroup>
     <ClCompile Include="DataStruct.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="%282023.7.12%29연결리스트.h" />
+    <ClInclude Include="(2023.7.13)단일연결리스트.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
