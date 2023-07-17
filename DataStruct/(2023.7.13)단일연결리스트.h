@@ -71,11 +71,6 @@ public:
 		size++;
 	}
 
-	void Insert(NODE* prevNode, int data)
-	{
-
-	}
-
 
 	int Size()
 	{
