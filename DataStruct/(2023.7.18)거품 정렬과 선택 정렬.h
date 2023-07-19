@@ -130,30 +130,63 @@ int main()
 	// 정렬되지 않은 데이터들에 대해 
 	// 가장 작은 데이터를 찾아서 가장 앞의 데이터와 교환하는 알고리즘입니다.
 
-	int selectBuffer[SIZE] = { 67,2,30,1,40 };
-	int num = 0;
+	// 시간복잡도 (O(n^2))
+
+	//int selectBuffer[SIZE] = { 6,2,11,4,3 };
+	//int num = 0;
+	//
+	//for (int i = 0; i < SIZE; i++)
+	//{
+	//	for (int j = i + 1; j < SIZE; j++)
+	//	{
+	//		if (selectBuffer[j] < selectBuffer[i])
+	//		{
+	//			num = selectBuffer[i];
+	//			selectBuffer[i] = selectBuffer[j];
+	//			selectBuffer[j] = num;
+	//		}
+	//	}
+	//
+	//}
+	//
+	//for (int k = 0; k < SIZE; k++)
+	//{
+	//	std::cout << selectBuffer[k] << " ";
+	//}
+	//
+	//std::cout << std::endl;
+
+
+	// 답지
+	int selectBuffer[SIZE] = { 6,2,11,4,3 };
+
 
 	for (int i = 0; i < SIZE; i++)
 	{
+		// 최솟값
+		int min = selectBuffer[i];
+
+		// select 변수
+		int select = i;
+
 		for (int j = i + 1; j < SIZE; j++)
 		{
-			if (selectBuffer[j] < selectBuffer[i])
+			if (min > selectBuffer[j])
 			{
-				num = selectBuffer[i];
-				selectBuffer[i] = selectBuffer[j];
-				selectBuffer[j] = num;
+				min = selectBuffer[j];
+				select = j;
 			}
 		}
 
+		std::swap(selectBuffer[i], selectBuffer[select]);
+
 	}
 
-	for (int k = 0; k < SIZE; k++)
+
+	for (auto& element : selectBuffer)
 	{
-		std::cout << selectBuffer[k] << " ";
+		std::cout << element << " ";
 	}
-
-	std::cout << std::endl;
-
 
 #pragma endregion
 
