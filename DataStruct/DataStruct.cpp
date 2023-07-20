@@ -1,95 +1,128 @@
 ﻿#include <iostream>
 
+#define SIZE 5
+
+
 template <typename T>
-class VECTOR
+class LinearQueue
 {
 private:
-	int capacity;
+	T array[SIZE];
+	int front;
+	int rear;
 	int size;
 
-	T * array;
-
 public:
-	VECTOR()
+	LinearQueue()
 	{
-		capacity = 1;
-		array = new T[size];
+		front = 0;
+		rear = 0;
+		size = 0;
 	}
+
+	bool Empty()
+	{
+		if (front == rear)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	bool IsFull()
+	{
+		if (SIZE <= rear)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
+	void Push(T data)
+	{
+
+		if (IsFull())
+		{
+			std::cout << "QUEUE가 가득 찼습니다." << std::endl;
+			exit(1);
+		}
+
+		array[rear++] = data;
+
+		size++;
+	}
+
+	void Pop()
+	{
+		if (Empty())
+		{
+			std::cout << "QUEUE가 비어 있습니다." << std::endl;
+			exit(1);
+		}
+		
+		array[front++] = NULL;
+		
+		size--;
+	}
+
+	int & Size()
+	{
+		return  size;
+	}
+
+	T & Front()
+	{
+		return array[front];
+	}
+
+	T & Back()
+	{
+		return array[rear-1];
+	}
+
 	
-	void Push_Back(T data)
-	{
-		if (size => capacity)
-		{
-			capacity *= 2;
-
-			ReSize(capacity);
-		}
-	
-		array[size++] = data;
-	}
-
-
-	void Pop_Back()
-	{
-		if (size <= 0)
-		{
-			return;
-		}
-		array[--size] = NULL;
-	}
-
-
-	//			 size에
-	void Resize(int size)
-	{
-		// capacity에 새로운 size 값을 설정한다.
-		capacity = size;
-
-		// 새로운 포인터 변수를 생성해서 새롭게 만들어진 
-		// 메모리 공간을 가리키도록 설정합니다.
-		T* tempArray = new T[size];
-
-		// 새로운 메모리 공간의 값을 초기화합니다.
-		for (int i = 0; i < size; i++)
-		{
-			tempArray[i] = NULL;
-		}
-
-		// 기존 배열에 있는 값을 복사해서 새로운 배열에 넣어줍니다.
-		for (int i = 0; i < this->size; i++)
-		{
-			tempArray[i] = array[i];
-		}
-
-		// array의 메모리 주소를 해제
-		delete(array);
-
-		// array에 새로 할당한 메모리의 시작 주소를 저장합니다
-		array = tempArray;
-
-	}
-
-	int Size()
-	{
-		return size;
-	}
-
-	// 연산자 오버로딩 [ ]
-	T& operator [ ] (const int& value)
-	{
-		return array[value];
-	}
-
-	~VECTOR()
-	{
-		delete(array);
-	}
 
 };
+
 
 int main()
 {
 	
+#pragma region 선형 큐
+	// 배열의 공간에 들어간 데이터가 고정되어
+	// 데이터를 빼내더라도 초기화하지 않으면
+	// 원래 데이터가 있던 배열의 자리에 더 이상
+	// 다른 것이 들어갈 수 없는 형태의 Queue입니다.
+	// FIFO
+	LinearQueue<int> queue;
+
+	queue.Push(10);
+	queue.Push(20);
+	queue.Push(30);
+	queue.Push(40);
+	queue.Push(50);
+
+	queue.Pop();
+	queue.Pop();
+	queue.Pop();
+	queue.Pop();
+	queue.Pop();
+
+
+	std::cout << queue.Size() << std::endl;
+	std::cout << queue.Front() << std::endl;
+	std::cout << queue.Back() << std::endl;
+
+
+#pragma endregion
+
 
 
 
