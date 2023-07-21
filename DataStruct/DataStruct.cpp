@@ -1,23 +1,20 @@
 ﻿#include <iostream>
 
-#define SIZE 5
-
+#define SIZE 4
 
 template <typename T>
-class LinearQueue
+class CircleQueue
 {
 private:
-	T array[SIZE];
+	T buffer[SIZE] = { 0, };
 	int front;
 	int rear;
-	int size;
 
 public:
-	LinearQueue()
+	CircleQueue()
 	{
-		front = 0;
-		rear = 0;
-		size = 0;
+		front = SIZE-1;
+		rear = SIZE-1;
 	}
 
 	bool Empty()
@@ -34,7 +31,7 @@ public:
 
 	bool IsFull()
 	{
-		if (SIZE <= rear)
+		if (front == (rear+1)%SIZE)
 		{
 			return true;
 		}
@@ -44,19 +41,18 @@ public:
 		}
 	}
 
-
 	void Push(T data)
 	{
-
 		if (IsFull())
 		{
 			std::cout << "QUEUE가 가득 찼습니다." << std::endl;
 			exit(1);
 		}
-
-		array[rear++] = data;
-
-		size++;
+		else
+		{
+			rear = (rear + 1) % SIZE;
+			buffer[rear] = data;
+		}
 	}
 
 	void Pop()
@@ -66,59 +62,48 @@ public:
 			std::cout << "QUEUE가 비어 있습니다." << std::endl;
 			exit(1);
 		}
-		
-		array[front++] = NULL;
-		
-		size--;
-	}
-
-	int & Size()
-	{
-		return  size;
+		else
+		{
+			front = (front + 1) % SIZE;
+			buffer[front] = NULL;
+		}
 	}
 
 	T & Front()
 	{
-		return array[front];
+		return buffer[(front + 1) % SIZE];
 	}
 
 	T & Back()
 	{
-		return array[rear-1];
+		return buffer[rear];
 	}
 
 	
 
 };
 
-
 int main()
 {
-	
-#pragma region 선형 큐
-	// 배열의 공간에 들어간 데이터가 고정되어
-	// 데이터를 빼내더라도 초기화하지 않으면
-	// 원래 데이터가 있던 배열의 자리에 더 이상
-	// 다른 것이 들어갈 수 없는 형태의 Queue입니다.
-	// FIFO
-	LinearQueue<int> queue;
 
-	queue.Push(10);
-	queue.Push(20);
-	queue.Push(30);
-	queue.Push(40);
-	queue.Push(50);
+#pragma region 원형 큐
+	// 물리적으로는 선형 구조를 가지고 있으며,
+	// 큐의 시작점과 끝점을 연결한 구조의 큐입니다.
 
-	queue.Pop();
-	queue.Pop();
-	queue.Pop();
-	queue.Pop();
-	queue.Pop();
+	CircleQueue<int> cicleQueue;
 
+	cicleQueue.Push(10);
+	cicleQueue.Push(20);
+	cicleQueue.Push(30);
 
-	std::cout << queue.Size() << std::endl;
-	std::cout << queue.Front() << std::endl;
-	std::cout << queue.Back() << std::endl;
+	cicleQueue.Pop();
+	cicleQueue.Pop();
+	cicleQueue.Pop();
+
+	cicleQueue.Push(999);
+
+	std::cout << cicleQueue.Front() << std::endl;
+	std::cout << cicleQueue.Back() << std::endl;
 
 
 #pragma endregion
