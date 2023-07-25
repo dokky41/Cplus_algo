@@ -41,9 +41,15 @@
     <ClInclude Include="(2023.7.21)원형 큐.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="(2023.7.24)삽입정렬.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="%282023.7.18%29거품 정렬과 선택 정렬.h">
+      <Filter>헤더 파일</Filter>
+    </None>
+    <None Include="%282023.7.25%29트리.h">
       <Filter>헤더 파일</Filter>
     </None>
   </ItemGroup>
