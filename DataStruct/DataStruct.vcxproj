@@ -138,6 +138,7 @@
     <ClInclude Include="(2023.7.20)선형 큐.h" />
     <ClInclude Include="(2023.7.21)원형 큐.h" />
     <ClInclude Include="(2023.7.24)삽입정렬.h" />
+    <ClInclude Include="(2023.7.26)힙.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="%282023.7.18%29거품 정렬과 선택 정렬.h" />
