@@ -56,7 +56,7 @@ struct Node
 
 struct Bucket
 {
-	Node * head;
+	Node* head;
 	int count;
 };
 
@@ -64,7 +64,7 @@ struct Bucket
 class HashTable
 {
 private:
-	Bucket bucket [5]; 
+	Bucket bucket[5];
 	int bucketSize = 5;
 
 public:
@@ -77,10 +77,10 @@ public:
 		}
 	}
 
-	Node * CreateNode(int key, int value)
+	Node* CreateNode(int key, int value)
 	{
 		// 1. 새로운 노드를 생성합니다.
-		Node * newNode = new Node;
+		Node* newNode = new Node;
 
 		// 2. 새로운 노드의 key값을 저장합니다.
 		newNode->key = key;
@@ -100,13 +100,13 @@ public:
 		int result = 0;
 
 		result = key % 5;
-		
+
 		return result;
 	}
 
 	void Insert(int key, int value)
 	{
-		// 해시 값을 받는 변수
+		// 해시 함수를 통해서 값을 받는 임시 변수
 		int hashIndex = HashFunction(key);
 
 		// 새로운 노드를 생성합니다.
@@ -115,34 +115,129 @@ public:
 		// 노드가 1 개 라도 존재하지 않는다면
 		if (bucket[hashIndex].count == 0)
 		{
+			// 1. bucket[hashIndex]의 head포인터에 새로운 노드의 주솟값을 저장합니다.
 			bucket[hashIndex].head = newNode;
-			bucket[hashIndex].count = 1;
+
+			// 2. bucket[hashIndex]의 count 변수의 값을 증가합니다.
+			bucket[hashIndex].count++;
 		}
 		else // 노드가 1개 라도 존재한다면
 		{
-			Node* node = bucket[hashIndex].head;
-			for (int i = 0; i < bucket[hashIndex].count; i++)
-			{
-				node = node->next;
-			}
-			node = newNode;
+			// 1. newNode의 next에 bucket[hashIndex]의 head의 값을 넣어줍니다.
+			newNode->next = bucket[hashIndex].head;
+
+			// 2.  bucket[hashIndex].head를 방금 새로 생성한 node의 시작 주소를 가리키도록 설정합니다.
+			bucket[hashIndex].head = newNode;
+
+			// 3. bucket[hashIndex]의 count 변수의 값을 증가합니다.
 			bucket[hashIndex].count++;
 
 		}
-	
-
 
 	}
 
 	void Remove(int key)
 	{
+		// 해시 함수를 통해서 값을 받는 임시 변수
+		int hashIndex = HashFunction(key);
+
+		// Node를 탐색할 수 있는 순회용 포인터 변수 선언 <- 각 bucket의 head값을 저장합니다.
+		Node * currentPtr = bucket[hashIndex].head;
+
+		Node * traceNode = nullptr;
+
+		// currentPtr이 nullptr이라는 함수를 종료합니다.
+		if (currentPtr == nullptr)
+		{
+			std::cout << "현재 노드가 존재하지 않습니다." << std::endl;
+			return;
+		}
+
+		// currentPtr을 이용해 내가 찾고자 하는 key값을 찾으면 됨
+		while (currentPtr)
+		{
+			if (key == currentPtr->key)
+			{
+				//내가 삭제하고자 하는 key가 head에 있는 노드라면...
+				if (currentPtr == bucket[hashIndex].head)
+				{
+					bucket[hashIndex].head = currentPtr->next;
+				}
+				else
+				{
+					traceNode->next = currentPtr->next;
+				}
+
+				// 각 bucket의 count값을 감소시킵니다.
+				bucket[hashIndex].count--;
+
+				//메모리를 해제합니다.
+				delete currentPtr;
+
+				return;
+			}
+
+			// 해당하는 KEY가 없다면 다음 NODE의 주소를 저장합니다.
+			traceNode = currentPtr;
+			currentPtr = currentPtr->next;
+		}
 
 	}
 
 	void Search(int key)
 	{
+		// 해시 함수를 통해서 값을 받는 임시 변수
+		int hashIndex = HashFunction(key);
 
+		// Node를 탐색할 수 있는 순회용 포인터 변수 선언 <- 각 bucket의 head값을 저장합니다.
+		Node* currentPtr = bucket[hashIndex].head;
+
+		// currentPtr이 nullptr이라는 함수를 종료합니다.
+		if (currentPtr == nullptr)
+		{
+			std::cout << "찾고자 하는 노드가 존재하지 않습니다." << std::endl;
+			return;
+		}
+
+		// currentPtr을 이용해 내가 찾고자 하는 key값을 찾으면 됨
+		while (currentPtr)
+		{
+			if (key == currentPtr->key)
+			{
+				std::cout << "Key : " << currentPtr->key << " Value : " << currentPtr->value << std::endl;
+				return;
+			}
+
+			// 해당하는 KEY가 없다면 다음 NODE의 주소를 저장합니다.
+			currentPtr = currentPtr->next;
+		}
+
+		std::cout << "찾고자 하는 KEY가 존재하지 않습니다." << std::endl;
 	}
+
+
+	void Show()
+	{
+		
+
+		for (int i = 0; i <5; i++)
+		{
+			Node* node = bucket[i].head;
+
+			if (node == nullptr)
+			{
+				break;
+			}
+
+			for (int j = 0; j < bucket[i].count; j++)
+			{
+				std::cout << node->value << " ";
+				node = node->next;
+			}
+			std::cout << std::endl;
+		}
+	}
+
 
 };
 
@@ -175,19 +270,30 @@ int main()
 
 
 	// 해시 충돌을 해결하는 방법
-	
+
 	// 체이닝 기법
 	// 각 해시 버킷을 연결리스트로 구성하는 방식입니다.
+	HashTable hashTable;
+
+	hashTable.Insert(5, 555);
+	hashTable.Insert(10, 111);
+
+	//hashTable.Remove(10);
+
+	//hashTable.Search(10);
+
+	hashTable.Show();
+
 
 	// 해시 충돌 발생 시 동일한 해시 값에 해당하는 데이터들을 
 	// 연결리스트로 연결하여 저장합니다.
 
 	// 개방 주소법
-	/* 
+	/*
 	// 충돌 발생 시 빈 버켓에 데이터를 저장하는 방식입니다.
 	// 빈 버킷을 어떻게 결정할 지에 따라 구현 방식이 달라집니다.
 
-	// 선형 탐사 : 충돌발생 시 앞에서 부터 차례대로 빈 버킷을 
+	// 선형 탐사 : 충돌발생 시 앞에서 부터 차례대로 빈 버킷을
 	// 찾아 값을 저장하는 방식입니다.
 
 	// 이차 탐사 : 충돌발생 시 2^2, 2^3 만큼 떨어진 빈 버킷을 찾아
