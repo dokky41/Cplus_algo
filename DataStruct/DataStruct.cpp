@@ -1,115 +1,158 @@
 ﻿#include <iostream>
 #include <vector>
+#include <queue>
+#include <stack>
 
-#pragma region 그래프
-	// 정점과 간선으로 이루어진 자료구조입니다.
+std::vector<int> bfsGraph[6];
+std::vector<int> dfsGraph[6];
 
-	// 정점(Vertex) : 노드를 의미하며, 각 노드에는 데이터 저장됩니다.
+bool bfsCheck[6];
+bool dfsCheck[6];
+
+
+#pragma region BFS (너비 우선 탐색)
+	// 시작 노드를 방문한 후 시작 노드에 있는
+	// 인접한 모든 노드들을 탐색하는 방법입니다.
+
+// 더 이상 방문하지 않은 노드가 없을 때까지 방문하지
+// 않은 모든 노드에 대해서도 BFS를 적용합니다.
+
+std::queue<int> queue;
+
+
+void BFS(int start)
+{
+	// 1. queue에 데이터를 삽입합니다
+	queue.push(start);
+
+	// 2. 시작 노드의 방문을 체크합니다.
+	bfsCheck[start] = true;
 	
-	// 간선(Edge) : 링크라고 하며, 노드간의 관계를 나타냅니다.
+	int temp,v;
 
-	// 차수(degree) : 무방향 그래프에서 하나의 정점에 인접한 정점의 수
+	// 3. queue가 비어있지 않다면 반복합니다.
+	while (!queue.empty())
+	{
+		// 4. Queue에서 원소를 임시 변수에 저장합니다.
+		temp = queue.front();
 
-	// 진출 차수(out-degree) : 방향 그래프에서 사용되며 , 한 노드에서 외부로 향하는 간선의 수
+		// 5. queue에 데이터를 뺍니다.
+		queue.pop();
 
-	// 진입 차수(in-degree) : 방향 그래프에서 사용되며, 외부 노드에서 들어오는 간선의 수
+		// 6. 임시 변수에 저장된 값을 출력합니다.
+		std::cout << temp << " ";
 
+		// 7. 해당 원소와 연결된, 아직 방문하지 않은 원소를 Queue에 넣어줍니다.
+		for (int i = 0; i < bfsGraph[temp].size(); i++)
+		{
+			v =  bfsGraph[temp][i];
 
+			if (bfsCheck[v] != true)
+			{
+				queue.push(v);
+				bfsCheck[v] = true;
+			}
+
+		}
+
+		
+
+	}
+
+}
 
 #pragma endregion
 
+#pragma region DFS (깊이 우선 탐색)
+	// 시작점부터 다음 경로로 넘어가기 전에 
+	// 해당 경로를 완벽하게 탐색하고 넘어가는 방법입니다.
+std::stack<int> stack;
+
+
+void DFS(int start)
+{
+	// 1. 시작노드의 방문을 체크합니다.
+	dfsCheck[start] = true;
+	
+	// 2. 노드의 값을 출력합니다.
+	std::cout << start << " ";
+
+	// 3. 반복문을 이용해서 인접한 노드의 사이즈 만큼 탐색합니다.
+	for (int i = 0; i < dfsGraph[start].size(); i++)
+	{
+		int y = dfsGraph[start][i];
+
+		// 방문하지 않은 노드가 있다면 재귀함수
+		if (!dfsCheck[y])
+		{
+			DFS(y);	
+		}
+	}
+	
+
+
+}
+
+#pragma endregion
 
 int main()
 {
 
-#pragma region 인접 행렬 
-	// 그래프의 연결 관계를 이차원 배열로 나타내는 방식입니다.
-	
-	// 장점 : 두 점에 대한 연결 정보를 조회할 때
-	//			O(1)의 시간 복잡도가 걸립니다.
+#pragma region BFS
 
-	// 단점 : 2차원 배열이 필요하기에 필요 이상의 공간을 사용합니다.
-	//        모든 정점에 대한 간선의 정보를 대입해야하므로, O(n^2)의 시간 복잡도가 걸립니다.
-
-	//int buffer[4][4] = { 0, };
+	////bfsGraph[0]의 노드
+	//bfsGraph[0].push_back(1);
+	//bfsGraph[0].push_back(2);
 	//
-	//int vertex = 0;
-	//int edge = 0;
-	//int x = 0, y = 0;
+	////bfsGraph[1]의 노드
+	//bfsGraph[1].push_back(0);
+	//bfsGraph[1].push_back(3);
 	//
-	//// 1. vertex와 edge 값을 입력합니다.
-	//std::cout << "vertex를 입력해주세요. " << std::endl;
-	//std::cin >> vertex;
+	////bfsGraph[2]의 노드
+	//bfsGraph[2].push_back(0);
+	//bfsGraph[2].push_back(4);
+	//bfsGraph[2].push_back(5);
 	//
-	//std::cout << "edge를 입력해주세요. " << std::endl;
-	//std::cin >> edge;
+	////bfsGraph[3]의 노드
+	//bfsGraph[3].push_back(1);
 	//
-	//std::cout << "--------------------------------" << std::endl;
+	////bfsGraph[4]의 노드
+	//bfsGraph[4].push_back(2);
 	//
-	//// 2. edge만큼 반복하면서 x와 y값을 입력 할 수 있도록 설정합니다.
-	//for (int i = 0; i < edge; i++)
-	//{
-	//	std::cout << "x,y의 값을 입력해주세요." << std::endl;
-	//	std::cin >> x >> y;
-	//	buffer[x][y] = 1;
-	//	buffer[y][x] = 1;
-	//}
+	////bfsGraph[5]의 노드
+	//bfsGraph[5].push_back(2);
 	//
-	//std::cout << std::endl;
 	//
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	for (int j = 0; j < 4; j++)
-	//	{
-	//		std::cout << buffer[i][j] << " ";
-	//	}
-	//
-	//	std::cout << std::endl;
-	//}
-
+	//BFS(0);
 
 #pragma endregion
 
 
-#pragma region 인접 리스트
-	// 그래프의 연결 관계를 vector의 배열(vector<int> data[])로 나타내는 배열입니다.
+#pragma region DFS
 
-	// 장점 : 필요한 공간만큼 사용하기 때문에 공간 낭비가 없습니다.
-	// 단점 : 특정 두 점이 연결되었는지 확인하려면 인접행렬에 비해 시간이 오래걸립니다.
+	// dfsGraph[0]의 노드
+	dfsGraph[0].push_back(1);
+	dfsGraph[0].push_back(2);
+	dfsGraph[0].push_back(3);
 
-	int node = 0;
-	int edge = 0;
-	int x=0, y=0;
+	// dfsGraph[1]의 노드
+	dfsGraph[1].push_back(0);
+	dfsGraph[1].push_back(4);
 
-	//1. vertex와 edge 값을 입력합니다.
-	std::cout << "node를 입력해주세요. " << std::endl;
-	std::cin >> node;
-	
-	std::cout << "edge를 입력해주세요. " << std::endl;
-	std::cin >> edge;
+	// dfsGraph[2]의 노드
+	dfsGraph[2].push_back(0);
 
-	std::vector<int> data[4];
+	// dfsGraph[3]의 노드
+	dfsGraph[3].push_back(0);
+	dfsGraph[3].push_back(5);
 
-	for (int i = 0; i < edge; i++)
-	{
-		std::cout << "x,y의 값을 입력해주세요." << std::endl;
-		std::cin >> x >> y;
+	// dfsGraph[4]의 노드
+	dfsGraph[4].push_back(1);
 
-		std::cout << " ------------------------  " << std::endl;
+	// dfsGraph[5]의 노드
+	dfsGraph[5].push_back(3);
 
-		data[x].push_back(y);
-		data[y].push_back(x);
-	}
-
-	for (int i = 0; i < edge; i++)
-	{
-		for (int j = 0; j < data[i].size(); j++)
-		{
-			std::cout << data[i][j] << " ";
-
-		}
-		std::cout << std::endl;
-	}
+	DFS(0);
 
 #pragma endregion
 
