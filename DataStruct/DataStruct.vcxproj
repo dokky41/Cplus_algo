@@ -142,6 +142,7 @@
     <ClInclude Include="(2023.7.27)계수정렬.h" />
     <ClInclude Include="%282023.7.28%29해시테이블.h" />
     <ClInclude Include="(2023.8.1)그래프.h" />
+    <ClInclude Include="(2023.8.2)그래프 탐색 방법.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="%282023.7.18%29거품 정렬과 선택 정렬.h" />
