@@ -145,6 +145,7 @@
     <ClInclude Include="(2023.8.2)그래프 탐색 방법.h" />
     <ClInclude Include="(2023.8.3)이진탐색트리.h" />
     <ClInclude Include="(2023.8.4)하노이탑.h" />
+    <ClInclude Include="(2023.8.7)원형연결리스트.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="%282023.7.18%29거품 정렬과 선택 정렬.h" />

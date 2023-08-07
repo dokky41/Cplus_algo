@@ -65,6 +65,9 @@
     <ClInclude Include="(2023.8.4)하노이탑.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="(2023.8.7)원형연결리스트.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="%282023.7.18%29거품 정렬과 선택 정렬.h">
